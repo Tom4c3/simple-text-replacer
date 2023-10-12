@@ -1,5 +1,5 @@
 # simple-text-replacer
-ブラウザ上でテキストを置換できるアプリです</br>
+ブラウザ上でテキストを置換できるページです</br>
 
 ### How to use
  https://tom4c3.github.io/simple-text-replacer/ にアクセス</br></br>
