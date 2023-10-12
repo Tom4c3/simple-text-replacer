@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>テキスト置換アプリ</title>
+    <style>
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>テキスト置換アプリ</h1>
+    <p>このページでは、指定した文字列を別の文字列に置換できます。以下の手順で使用できます：</p>
+    <ol>
+        <li>「文章をペースト」のテキストエリアに変換したい文章を入力またはペーストします。</li>
+        <li>「置換前の文字」に、置換したい元の文字列を入力します。（例：改行を置換したい場合は「\n」を入力）</li>
+        <li>「置換後の文字」に、置換する新しい文字列を入力します。</li>
+        <li>「置換する」ボタンをクリックすると、変換された文章が下のテキストエリアに表示されます。</li>
+    </ol>
+
+    <h2>文章をペースト:</h2>
+    <textarea id="inputText"></textarea>
+
+    <h2>置換前の文字:</h2>
+    <input type="text" id="searchChar" value="\n">
+
+    <h2>置換後の文字:</h2>
+    <input type="text" id="replaceChar" value="，">
+
+    <button onclick="replaceText()">置換する</button>
+
+    <h2>置換後の文章:</h2>
+    <textarea id="outputText" readonly></textarea>
+
+    <script>
+        function replaceText() {
+            const inputText = document.getElementById('inputText').value;
+            const searchChar = document.getElementById('searchChar').value.replace(/\\n/g, '\n');
+            const replaceChar = document.getElementById('replaceChar').value;
+            const replacedText = inputText.split(searchChar).join(replaceChar);
+            document.getElementById('outputText').value = replacedText;
+        }
+    </script>
+
+    <div style="margin-top: 30px; border-top: 1px solid #ccc; padding-top: 15px;">
+        <h3>ヒント：よく使われるエスケープシーケンス</h3>
+        <ul>
+            <li><code>\n</code> - 改行</li>
+            <li><code>\t</code> - タブ</li>
+            <li><code>\\</code> - バックスラッシュ「\」自体</li>
+            <li><code>\"</code> - ダブルクォート「"」</li>
+            <li><code>\'</code> - シングルクォート「'」</li>
+        </ul>
+    </div>
+
+</body>
+</html>
+
