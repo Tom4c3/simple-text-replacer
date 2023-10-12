@@ -1,5 +1,6 @@
 # simple-text-replacer
 ブラウザ上でテキストを置換できるページです。</br>
+Windowsのデフォルトのメモ帳アプリだと改行コードの置換ができなくて不便だったので作りました。</br>
 
 ### How to use
  https://tom4c3.github.io/simple-text-replacer/ にアクセス</br></br>
