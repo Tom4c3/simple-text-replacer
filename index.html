@@ -41,8 +41,10 @@
             const inputText = document.getElementById('inputText').value;
             const searchChar = document.getElementById('searchChar').value.replace(/\\n/g, '\n');
             const replaceChar = document.getElementById('replaceChar').value;
+            const outputTextArea = document.getElementById('outputText');
+            outputTextArea.value = ''; // 置換後のテキストエリアをクリア
             const replacedText = inputText.split(searchChar).join(replaceChar);
-            document.getElementById('outputText').value = replacedText;
+            outputTextArea.value = replacedText;
         }
     </script>
 
