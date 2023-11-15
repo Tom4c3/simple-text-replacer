@@ -14,6 +14,11 @@
         button {
             margin-right: 10px;
         }
+
+        #message {
+            color: green;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -45,18 +50,34 @@
     <button onclick="copyToClipboard()">結果をクリップボードにコピー</button>
     <textarea id="outputText" readonly></textarea>
 
+    <!-- コピー成功メッセージ表示用の要素を追加 -->
+    <div id="message"></div>
+
     <script>
         let lastInputText = ''; // 最後に保存されたテキスト状態
 
         function replaceText() {
-            const inputText = document.getElementById('inputText').value; // この行を追加
-            lastInputText = inputText;
-            const searchChar = document.getElementById('searchChar').value.replace(/\\n/g, '\n');
-            const replaceChar = document.getElementById('replaceChar').value;
+            lastInputText = document.getElementById('inputText').value;
+            let searchChar = document.getElementById('searchChar').value;
+            let replaceChar = document.getElementById('replaceChar').value;
+
+            // エスケープシーケンスを適切な文字に変換
+            searchChar = convertEscapeSequences(searchChar);
+            replaceChar = convertEscapeSequences(replaceChar);
+
             const outputTextArea = document.getElementById('outputText');
             outputTextArea.value = ''; // 置換後のテキストエリアをクリア
-            const replacedText = inputText.split(searchChar).join(replaceChar);
+            const replacedText = lastInputText.split(searchChar).join(replaceChar);
             outputTextArea.value = replacedText;
+        }
+
+        // エスケープシーケンスを実際の文字に変換する関数
+        function convertEscapeSequences(str) {
+            return str.replace(/\\n/g, '\n')
+                .replace(/\\t/g, '\t')
+                .replace(/\\\\/g, '\\')
+                .replace(/\\"/g, '\"')
+                .replace(/\\'/g, '\'');
         }
 
         function clearInputText() {
@@ -80,10 +101,21 @@
         function copyToClipboard() {
             const outputText = document.getElementById('outputText').value;
             navigator.clipboard.writeText(outputText).then(() => {
-                alert('結果がクリップボードにコピーされました。');
+                showMessage('結果がクリップボードにコピーされました。');
             }).catch(err => {
-                alert('クリップボードへのコピーに失敗しました: ' + err);
+                showMessage('クリップボードへのコピーに失敗しました: ' + err, true);
             });
+        }
+
+        function showMessage(msg, isError = false) {
+            const messageElement = document.getElementById('message');
+            messageElement.textContent = msg;
+            messageElement.style.color = isError ? 'red' : 'green';
+
+            // 3秒後にメッセージをクリア
+            setTimeout(() => {
+                messageElement.textContent = '';
+            }, 3000);
         }
     </script>
 
