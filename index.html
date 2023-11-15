@@ -29,7 +29,7 @@
     <h2>文章をペースト:</h2>
     <button onclick="clearInputText()">入力をクリア</button>
     <button onclick="undoChanges()">元に戻す</button>
-    <textarea id="inputText" oninput="saveLastState()"></textarea>
+    <textarea id="inputText"></textarea>
 
     <h2>置換前の文字:</h2>
     <input type="text" id="searchChar" value="\n">
@@ -42,17 +42,15 @@
     <h2>置換後の文章:</h2>
     <button onclick="clearOutputText()">表示をクリア</button>
     <button onclick="copyToInput()">置換した文章をさらに置換（入力欄にペースト）</button>
+    <button onclick="copyToClipboard()">結果をクリップボードにコピー</button>
     <textarea id="outputText" readonly></textarea>
 
     <script>
         let lastInputText = ''; // 最後に保存されたテキスト状態
 
-        function saveLastState() {
-            lastInputText = document.getElementById('inputText').value;
-        }
-
         function replaceText() {
-            const inputText = document.getElementById('inputText').value;
+            const inputText = document.getElementById('inputText').value; // この行を追加
+            lastInputText = inputText;
             const searchChar = document.getElementById('searchChar').value.replace(/\\n/g, '\n');
             const replaceChar = document.getElementById('replaceChar').value;
             const outputTextArea = document.getElementById('outputText');
@@ -70,12 +68,22 @@
         }
 
         function copyToInput() {
+            lastInputText = document.getElementById('inputText').value; // コピー前の状態を保存
             const outputText = document.getElementById('outputText').value;
             document.getElementById('inputText').value = outputText;
         }
 
         function undoChanges() {
             document.getElementById('inputText').value = lastInputText;
+        }
+
+        function copyToClipboard() {
+            const outputText = document.getElementById('outputText').value;
+            navigator.clipboard.writeText(outputText).then(() => {
+                alert('結果がクリップボードにコピーされました。');
+            }).catch(err => {
+                alert('クリップボードへのコピーに失敗しました: ' + err);
+            });
         }
     </script>
 
@@ -92,4 +100,3 @@
 
 </body>
 </html>
-
