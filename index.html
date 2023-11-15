@@ -29,7 +29,7 @@
     <h2>文章をペースト:</h2>
     <button onclick="clearInputText()">入力をクリア</button>
     <button onclick="undoChanges()">元に戻す</button>
-    <textarea id="inputText"></textarea>
+    <textarea id="inputText" oninput="saveLastState()"></textarea>
 
     <h2>置換前の文字:</h2>
     <input type="text" id="searchChar" value="\n">
@@ -45,11 +45,14 @@
     <textarea id="outputText" readonly></textarea>
 
     <script>
-        let lastInputText = ''; // 最後に「置換する」ボタンを押す前のテキストを保存する変数
+        let lastInputText = ''; // 最後に保存されたテキスト状態
+
+        function saveLastState() {
+            lastInputText = document.getElementById('inputText').value;
+        }
 
         function replaceText() {
             const inputText = document.getElementById('inputText').value;
-            lastInputText = inputText; // 現在の入力テキストを保存
             const searchChar = document.getElementById('searchChar').value.replace(/\\n/g, '\n');
             const replaceChar = document.getElementById('replaceChar').value;
             const outputTextArea = document.getElementById('outputText');
@@ -89,3 +92,4 @@
 
 </body>
 </html>
+
